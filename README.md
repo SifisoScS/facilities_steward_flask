@@ -94,7 +94,7 @@ python app.py
 
 facilities_steward_flask/
 ├── app/
-│   ├── **init__.py          # Flask app factory
+│   ├── __init__.py          # Flask app factory
 │   ├── models.py            # Database models
 │   ├── routes.py            # Application routes
 │   ├── forms.py             # WTForms definitions
