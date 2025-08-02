@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - DERIVCO DURBAN FACILITIES{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-boxes me-2"></i>Inventory Management</h2>
+    <a href="{{ url_for('main.add_inventory') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add New Item
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-list me-2"></i>Current Inventory Items
+        </h5>
+    </div>
+    <div class="card-body">
+        {% if items %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                        <th>Condition</th>
+                        <th>Min Stock Level</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.name }}</strong>
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ item.quantity }}</span>
+                        </td>
+                        <td>{{ item.location }}</td>
+                        <td>
+                            {% if item.condition == 'good' %}
+                                <span class="badge bg-success">Good</span>
+                            {% elif item.condition == 'repair_needed' %}
+                                <span class="badge bg-warning">Repair Needed</span>
+                            {% else %}
+                                <span class="badge bg-danger">Obsolete</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.min_stock_level }}</td>
+                        <td>
+                            {% if item.quantity <= item.min_stock_level %}
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>Low Stock
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>In Stock
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+            <h5 class="text-muted">No inventory items found</h5>
+            <p class="text-muted">Start by adding your first inventory item.</p>
+            <a href="{{ url_for('main.add_inventory') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Add First Item
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if items %}
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Items</h5>
+                <h2 class="text-primary">{{ items|length }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Low Stock Items</h5>
+                <h2 class="text-warning">
+                    {{ items|selectattr('quantity', 'le', items|map(attribute='min_stock_level')|list)|list|length }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Good Condition</h5>
+                <h2 class="text-success">
+                    {{ items|selectattr('condition', 'equalto', 'good')|list|length }}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

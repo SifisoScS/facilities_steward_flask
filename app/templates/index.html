@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - DERIVCO DURBAN FACILITIES{% endblock %}
+
+{% block content %}
+<div class="welcome-panel">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="mb-3">
+                <i class="fas fa-user-tie me-3"></i>WELCOME, SIFISO SHEZI
+            </h1>
+            <h4 class="mb-3">Facilities Steward | Systems Architect</h4>
+            <p class="lead mb-0">"Building the framework for operational excellence through disciplined asset management"</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="iso-badge">
+                <i class="fas fa-certificate me-2"></i>
+                ISO 41001:2018 CERTIFIED PROCESSES
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div class="metric-number">{{ total_assets }}</div>
+            <div class="metric-label">
+                <i class="fas fa-chair me-2"></i>Assets Under Stewardship
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div class="metric-number">97.3%</div>
+            <div class="metric-label">
+                <i class="fas fa-chart-line me-2"></i>Inventory Accuracy
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div class="metric-number">{{ active_work_orders }}</div>
+            <div class="metric-label">
+                <i class="fas fa-clipboard-list me-2"></i>Active Work Orders
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card">
+            <div class="metric-number">{{ low_stock_items }}</div>
+            <div class="metric-label">
+                <i class="fas fa-exclamation-triangle me-2"></i>Items Requiring Reorder
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-tachometer-alt me-2"></i>FACILITIES MANAGEMENT COMMAND CENTER
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ url_for('main.inventory') }}" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-boxes fa-2x mb-2"></i><br>
+                            <strong>ASSET REGISTER</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ url_for('main.usage_logs') }}" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-eye fa-2x mb-2"></i><br>
+                            <strong>LIVE STOREROOM VIEW</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ url_for('main.work_orders') }}" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-portal-enter fa-2x mb-2"></i><br>
+                            <strong>WORK ORDER PORTAL</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="#" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-calendar fa-2x mb-2"></i><br>
+                            <strong>MAINTENANCE CALENDAR</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="#" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-file-alt fa-2x mb-2"></i><br>
+                            <strong>COMPLIANCE DOCUMENTS</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="#" class="btn btn-primary w-100 py-3">
+                            <i class="fas fa-user-cog fa-2x mb-2"></i><br>
+                            <strong>SIFISO SHEZI METHODOLOGY</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>SYSTEM PREVIEW
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-cogs fa-4x text-muted"></i>
+                </div>
+                <h6 class="text-muted">YOUR SYSTEM AT WORK</h6>
+                <p class="text-muted small">"Every tool tracked, every asset accounted for"</p>
+                
+                <div class="mt-4">
+                    <h6>Quick Actions</h6>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('main.add_inventory') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>Add Inventory
+                        </a>
+                        <a href="{{ url_for('main.add_asset') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>Add Asset
+                        </a>
+                        <a href="{{ url_for('main.borrow_item') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-hand-holding me-1"></i>Borrow Item
+                        </a>
+                        <a href="{{ url_for('main.add_work_order') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>New Work Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>LAST UPDATED
+                </h6>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-0" id="lastUpdated"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Update timestamp
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+    
+    // Auto-refresh dashboard metrics every 30 seconds
+    setInterval(function() {
+        fetch('/api/dashboard_data')
+            .then(response => response.json())
+            .then(data => {
+                // Update metrics if needed
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+            })
+            .catch(error => console.error('Error fetching dashboard data:', error));
+    }, 30000);
+</script>
+{% endblock %}
+

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Usage Logs - DERIVCO DURBAN FACILITIES{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-exchange-alt me-2"></i>Borrow & Return Logs</h2>
+    <a href="{{ url_for('main.borrow_item') }}" class="btn btn-primary">
+        <i class="fas fa-hand-holding me-2"></i>Borrow Item
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-list me-2"></i>Recent Activity
+        </h5>
+    </div>
+    <div class="card-body">
+        {% if logs %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Staff Name</th>
+                        <th>Item/Asset</th>
+                        <th>Purpose</th>
+                        <th>Borrow Time</th>
+                        <th>Return Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>
+                            <strong>{{ log.staff_name }}</strong>
+                        </td>
+                        <td>
+                            {% if log.inventory_item %}
+                                <span class="badge bg-info me-1">Inventory</span>
+                                {{ log.inventory_item.name }}
+                            {% elif log.asset %}
+                                <span class="badge bg-warning me-1">Asset</span>
+                                {{ log.asset.type }} ({{ log.asset.room_number }})
+                            {% else %}
+                                <span class="text-muted">Unknown Item</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ log.purpose or '-' }}</td>
+                        <td>{{ log.borrow_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            {% if log.return_time %}
+                                {{ log.return_time.strftime('%Y-%m-%d %H:%M') }}
+                            {% else %}
+                                <span class="text-muted">Not returned</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if log.return_time %}
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>Returned
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning">
+                                    <i class="fas fa-clock me-1"></i>On Loan
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not log.return_time %}
+                                <form method="POST" action="{{ url_for('main.return_item', log_id=log.id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-success" title="Mark as Returned">
+                                        <i class="fas fa-undo"></i> Return
+                                    </button>
+                                </form>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-exchange-alt fa-4x text-muted mb-3"></i>
+            <h5 class="text-muted">No usage logs found</h5>
+            <p class="text-muted">Start by borrowing your first item.</p>
+            <a href="{{ url_for('main.borrow_item') }}" class="btn btn-primary">
+                <i class="fas fa-hand-holding me-2"></i>Borrow First Item
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if logs %}
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Transactions</h5>
+                <h2 class="text-primary">{{ logs|length }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Items On Loan</h5>
+                <h2 class="text-warning">
+                    {{ logs|rejectattr('return_time')|list|length }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Items Returned</h5>
+                <h2 class="text-success">
+                    {{ logs|selectattr('return_time')|list|length }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Active Users</h5>
+                <h2 class="text-info">
+                    {{ logs|map(attribute='staff_name')|unique|list|length }}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+

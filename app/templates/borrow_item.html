@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Borrow Item - DERIVCO DURBAN FACILITIES{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-hand-holding me-2"></i>Borrow Item/Asset
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="borrowForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.item_type.label(class="form-label") }}
+                            {{ form.item_type(class="form-select", id="itemType") }}
+                            {% if form.item_type.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.item_type.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.item_id.label(class="form-label") }}
+                            {{ form.item_id(class="form-select", id="itemSelect") }}
+                            {% if form.item_id.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.item_id.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.staff_name.label(class="form-label") }}
+                        {{ form.staff_name(class="form-control", placeholder="Enter your full name") }}
+                        {% if form.staff_name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.staff_name.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.purpose.label(class="form-label") }}
+                            {{ form.purpose(class="form-control", placeholder="e.g., Office maintenance, Equipment repair") }}
+                            {% if form.purpose.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.purpose.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.job_id.label(class="form-label") }}
+                            {{ form.job_id(class="form-control", placeholder="e.g., WO-2024-001") }}
+                            <div class="form-text">Optional: Link to work order or job reference</div>
+                            {% if form.job_id.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.job_id.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Remember:</strong> Please return the item/asset as soon as you're done using it. All borrowed items are tracked for accountability and ISO 41001 compliance.
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.usage_logs') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Logs
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Available Inventory Items</h6>
+            </div>
+            <div class="card-body">
+                {% if inventory_items %}
+                    <div class="list-group list-group-flush">
+                        {% for item in inventory_items[:5] %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ item.name }}</strong><br>
+                                <small class="text-muted">{{ item.location }}</small>
+                            </div>
+                            <span class="badge bg-info">{{ item.quantity }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if inventory_items|length > 5 %}
+                        <div class="text-center mt-2">
+                            <small class="text-muted">... and {{ inventory_items|length - 5 }} more items</small>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted">No inventory items available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Available Assets</h6>
+            </div>
+            <div class="card-body">
+                {% if assets %}
+                    <div class="list-group list-group-flush">
+                        {% for asset in assets[:5] %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ asset.type }}</strong><br>
+                                <small class="text-muted">Room {{ asset.room_number }}</small>
+                            </div>
+                            <span class="badge bg-warning">{{ asset.quantity }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if assets|length > 5 %}
+                        <div class="text-center mt-2">
+                            <small class="text-muted">... and {{ assets|length - 5 }} more assets</small>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted">No assets available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dynamic item selection based on type
+    document.getElementById('itemType').addEventListener('change', function() {
+        const itemSelect = document.getElementById('itemSelect');
+        const itemType = this.value;
+        
+        // Clear existing options
+        itemSelect.innerHTML = '<option value="">Select an item...</option>';
+        
+        if (itemType === 'inventory') {
+            {% for item in inventory_items %}
+            itemSelect.innerHTML += '<option value="{{ item.id }}">{{ item.name }} ({{ item.location }})</option>';
+            {% endfor %}
+        } else if (itemType === 'asset') {
+            {% for asset in assets %}
+            itemSelect.innerHTML += '<option value="{{ asset.id }}">{{ asset.type }} - Room {{ asset.room_number }}</option>';
+            {% endfor %}
+        }
+    });
+    
+    // Initialize on page load
+    document.getElementById('itemType').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}
+

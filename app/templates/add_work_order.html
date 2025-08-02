@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Create Work Order - DERIVCO DURBAN FACILITIES{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-plus me-2"></i>Create New Work Order
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            {{ form.name.label(class="form-label") }}
+                            {{ form.name(class="form-control", placeholder="e.g., Office lighting repair, Desk assembly") }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.name.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            {{ form.status.label(class="form-label") }}
+                            {{ form.status(class="form-select") }}
+                            {% if form.status.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.status.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.location_department.label(class="form-label") }}
+                            {{ form.location_department(class="form-control", placeholder="e.g., IT Department, Room 205") }}
+                            {% if form.location_department.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.location_department.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.task_type.label(class="form-label") }}
+                            {{ form.task_type(class="form-control", placeholder="e.g., Maintenance, Installation, Repair") }}
+                            {% if form.task_type.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.task_type.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.duration.label(class="form-label") }}
+                            {{ form.duration(class="form-control", placeholder="e.g., 2 hours, 1 day, 30 minutes") }}
+                            <div class="form-text">Estimated time to complete this work order</div>
+                            {% if form.duration.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.duration.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            {{ form.requestor.label(class="form-label") }}
+                            {{ form.requestor(class="form-control", placeholder="e.g., John Smith, IT Manager") }}
+                            {% if form.requestor.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.requestor.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.work_description.label(class="form-label") }}
+                        {{ form.work_description(class="form-control", rows="4", placeholder="Detailed description of the work to be performed...") }}
+                        <div class="form-text">Provide detailed information about the work required, including any special instructions or requirements.</div>
+                        {% if form.work_description.errors %}
+                            <div class="text-danger">
+                                {% for error in form.work_description.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.supervisor_signature.label(class="form-label") }}
+                        {{ form.supervisor_signature(class="form-control", placeholder="e.g., S. Shezi, Facilities Steward") }}
+                        <div class="form-text">Optional: Digital signature or approval from supervisor</div>
+                        {% if form.supervisor_signature.errors %}
+                            <div class="text-danger">
+                                {% for error in form.supervisor_signature.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>ISO 41001 Compliance:</strong> This work order will be tracked for facilities management compliance and reporting purposes. Ensure all details are accurate and complete.
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.work_orders') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Work Orders
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Work Order Best Practices
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-check-circle text-success me-2"></i>Clear Description</h6>
+                        <p class="small text-muted">Provide specific details about what needs to be done, including any tools or materials required.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-map-marker-alt text-info me-2"></i>Accurate Location</h6>
+                        <p class="small text-muted">Specify the exact location where work needs to be performed for efficient scheduling.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-clock text-warning me-2"></i>Realistic Timeline</h6>
+                        <p class="small text-muted">Estimate duration accurately to help with resource planning and scheduling.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
