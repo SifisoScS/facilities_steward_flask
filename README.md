@@ -15,6 +15,7 @@ This application provides a complete facilities management solution aligned with
 ## Features
 
 ### 🎯 Dashboard
+
 - Personalized welcome for Sifiso Shezi (Facilities Steward | Systems Architect)
 - Real-time metrics and KPIs
 - ISO 41001:2018 certification badge
@@ -22,6 +23,7 @@ This application provides a complete facilities management solution aligned with
 - Professional corporate design with Derivco branding
 
 ### 📦 Inventory Management
+
 - Add, edit, and track inventory items
 - Location-based organization
 - Condition monitoring (Good, Repair Needed, Obsolete)
@@ -29,6 +31,7 @@ This application provides a complete facilities management solution aligned with
 - Minimum stock level configuration
 
 ### 🪑 Asset Management
+
 - Register furniture and equipment by room/location
 - Photo documentation support
 - Purchase date tracking
@@ -36,6 +39,7 @@ This application provides a complete facilities management solution aligned with
 - Room-based asset organization
 
 ### 📋 Usage Logs
+
 - Borrow/return tracking system
 - Staff accountability with timestamps
 - Purpose and job ID linking
@@ -43,6 +47,7 @@ This application provides a complete facilities management solution aligned with
 - Return notifications
 
 ### 🔧 Work Order Management
+
 - Create and track maintenance tasks
 - Location and department assignment
 - Duration estimation and tracking
@@ -61,16 +66,19 @@ This application provides a complete facilities management solution aligned with
 ## Installation
 
 1. **Clone or extract the project**:
+
    ```bash
    cd facilities_steward_flask
    ```
 
 2. **Install dependencies**:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 3. **Run the application**:
+
    ```bash
    python app.py
    ```
@@ -80,10 +88,13 @@ This application provides a complete facilities management solution aligned with
 
 ## Project Structure
 
-```
+cd facilities_steward_flask
+pip install -r requirements.txt
+python app.py
+
 facilities_steward_flask/
 ├── app/
-│   ├── __init__.py          # Flask app factory
+│   ├── **init__.py          # Flask app factory
 │   ├── models.py            # Database models
 │   ├── routes.py            # Application routes
 │   ├── forms.py             # WTForms definitions
@@ -102,38 +113,43 @@ facilities_steward_flask/
 ├── requirements.txt         # Python dependencies
 ├── .gitignore              # Git ignore rules
 └── README.md               # This file
-```
 
 ## Database Models
 
 ### InventoryItem
+
 - Item name, quantity, location
 - Condition and minimum stock level
 - Last reorder date tracking
 
 ### Asset
+
 - Asset type, room number, location description
 - Quantity, purchase date, condition
 - Photo path for documentation
 
 ### UsageLog
+
 - Staff name, borrow/return timestamps
 - Purpose and job ID linking
 - Foreign keys to inventory items and assets
 
 ### WorkOrder
+
 - Work order details and descriptions
 - Location, duration, task type
 - Requestor and supervisor information
 - Status tracking
 
 ### User
+
 - Staff information and access levels
 - Role-based permissions
 
 ## Design Features
 
 ### Color Palette
+
 - **Navy Blue (#003366)**: Authority and reliability
 - **Slate Grey (#708090)**: Stability and neutrality
 - **Teal (#008080)**: Innovation and clarity
@@ -141,6 +157,7 @@ facilities_steward_flask/
 - **White (#FFFFFF)**: Clean, ISO-compliant design
 
 ### UI/UX Elements
+
 - Gradient backgrounds and hover effects
 - Card-based layout with shadows
 - Responsive design for all devices
@@ -159,12 +176,14 @@ The application is designed to support ISO 41001:2018 Facilities Management stan
 ## Usage Instructions
 
 ### Adding Inventory Items
+
 1. Navigate to Inventory → Add New Item
 2. Fill in item details (name, quantity, location, condition)
 3. Set minimum stock level for alerts
 4. Submit to add to inventory
 
 ### Registering Assets
+
 1. Go to Assets → Add New Asset
 2. Enter asset type, room number, and location
 3. Set quantity and condition
@@ -172,6 +191,7 @@ The application is designed to support ISO 41001:2018 Facilities Management stan
 5. Submit to register asset
 
 ### Borrowing Items
+
 1. Visit Usage Logs → Borrow Item
 2. Select item type (Inventory or Asset)
 3. Choose specific item from dropdown
@@ -179,6 +199,7 @@ The application is designed to support ISO 41001:2018 Facilities Management stan
 5. Submit to create borrow record
 
 ### Creating Work Orders
+
 1. Navigate to Work Orders → Create Work Order
 2. Fill in work order details
 3. Set location, duration, and task type
@@ -208,6 +229,5 @@ For technical support or feature requests, contact the development team or refer
 
 ---
 
-**© Derivco Facilities Intelligence | Customized for Sifiso Shezi**  
+**© Derivco Facilities Intelligence | Sifiso Shezi Methodology**  
 *Empowering Excellence in Facilities Management – Aligned to ISO 41001*
-
