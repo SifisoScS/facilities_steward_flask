@@ -22,7 +22,8 @@ def index():
 @main.route('/inventory')
 def inventory():
     items = InventoryItem.query.all()
-    return render_template('inventory.html', items=items)
+    low_stock_items_count = InventoryItem.query.filter(InventoryItem.quantity <= InventoryItem.min_stock_level).count()
+    return render_template("inventory.html", items=items, low_stock_items_count=low_stock_items_count)
 
 @main.route('/inventory/add', methods=['GET', 'POST'])
 def add_inventory():
@@ -141,4 +142,3 @@ def dashboard_data():
         'low_stock_items': InventoryItem.query.filter(InventoryItem.quantity <= InventoryItem.min_stock_level).count()
     }
     return jsonify(data)
-
