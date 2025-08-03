@@ -66,19 +66,16 @@ This application provides a complete facilities management solution aligned with
 ## Installation
 
 1. **Clone or extract the project**:
-
    ```bash
    cd facilities_steward_flask
    ```
 
 2. **Install dependencies**:
-
    ```bash
    pip install -r requirements.txt
    ```
 
 3. **Run the application**:
-
    ```bash
    python app.py
    ```
@@ -88,10 +85,7 @@ This application provides a complete facilities management solution aligned with
 
 ## Project Structure
 
-cd facilities_steward_flask
-pip install -r requirements.txt
-python app.py
-
+```
 facilities_steward_flask/
 ├── app/
 │   ├── __init__.py          # Flask app factory
@@ -113,6 +107,7 @@ facilities_steward_flask/
 ├── requirements.txt         # Python dependencies
 ├── .gitignore              # Git ignore rules
 └── README.md               # This file
+```
 
 ## Database Models
 
@@ -229,5 +224,5 @@ For technical support or feature requests, contact the development team or refer
 
 ---
 
-**© Derivco Facilities Intelligence | Sifiso Shezi Methodology**  
+**© Derivco Facilities Intelligence | Customized for Sifiso Shezi**  
 *Empowering Excellence in Facilities Management – Aligned to ISO 41001*
